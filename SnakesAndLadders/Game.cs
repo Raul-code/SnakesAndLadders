@@ -107,7 +107,7 @@ namespace SnakesAndLadders
             DiceNumber = _diceService.RollsDice();
 
             var newPosition = DiceNumber + Players[playerTurn].Position;
-            if (newPosition <= board.BoardSize - 1)
+            if (newPosition <= board.BoardSize)
             {
                 Players[playerTurn].Position = newPosition;
             }
@@ -127,15 +127,15 @@ namespace SnakesAndLadders
 
         private bool IsWinSquare()
         {
-            return Players[playerTurn].Position == board.BoardSize - 1;
+            return Players[playerTurn].Position == board.BoardSize;
         }
 
         private void CheckForAdornment()
         {
-            CurrentAdornment = board.Adornments[Players[playerTurn].Position];
+            CurrentAdornment = board.Adornments[Players[playerTurn].Position - 1];
             if (CurrentAdornment != null)
             {
-                Players[playerTurn].Position = CurrentAdornment.FinalPosition - 1;
+                Players[playerTurn].Position = CurrentAdornment.FinalPosition;
             }
         }
 

@@ -24,7 +24,7 @@ namespace SnakesAndLadders.ConsoleApp.Services
 
             foreach (var player in players)
             {
-                Console.WriteLine($"Position {player.PlayerName} : {player.PositionToShow}");
+                Console.WriteLine($"Position {player.PlayerName} : {player.Position}");
             }
 
             Console.WriteLine($"Next turn: {turn}");

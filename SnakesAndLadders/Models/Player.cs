@@ -3,12 +3,11 @@
     public class Player
     {
         public string PlayerName { get; set; }
-        public int Position { get; set; }
-        public int PositionToShow => Position + 1; 
+        public int Position { get; set; } // Index 1
 
         public Player(int playerNumber)
         {
-            Position = 0;
+            Position = 1;
             PlayerName = $"Player {playerNumber}";
         }
     }

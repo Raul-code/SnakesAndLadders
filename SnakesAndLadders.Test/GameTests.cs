@@ -17,7 +17,7 @@ namespace SnakesAndLadders.Test
 
             foreach (var player in game.Players)
             {
-                Assert.True(player.PositionToShow == 1);
+                Assert.True(player.Position == 1);
             }
         }
 
@@ -36,7 +36,7 @@ namespace SnakesAndLadders.Test
             await game.Initialize(2);
             await game.StartGame();
 
-            Assert.Equal(4, game.Players[0].PositionToShow);
+            Assert.Equal(4, game.Players[0].Position);
         }
 
         [Fact]
@@ -54,29 +54,29 @@ namespace SnakesAndLadders.Test
             await game.Initialize(2);
             await game.StartGame();
 
-            Assert.Equal(8, game.Players[0].PositionToShow);
+            Assert.Equal(8, game.Players[0].Position);
         }
 
-        //[Fact]
-        //public async Task CheckWinGame()
-        //{
-        //    var diceServiceMock = new Mock<IDiceService>();
-        //    var nextTurnServiceMock = new Mock<INextTurnService>();
-        //    var drawServiceMock = new Mock<IDrawService>();
+        [Fact]
+        public async Task CheckWinGame()
+        {
+            var diceServiceMock = new Mock<IDiceService>();
+            var nextTurnServiceMock = new Mock<INextTurnService>();
+            var drawServiceMock = new Mock<IDrawService>();
 
-        //    TaskCompletionSource taskCompletionSource = new();
-        //    diceServiceMock.SetupSequence(x => x.RollsDice()).Returns(99);
-        //    nextTurnServiceMock.SetupSequence(x => x.NextTurnAsync()).ReturnsAsync(true).ReturnsAsync(false);
+            TaskCompletionSource taskCompletionSource = new();
+            diceServiceMock.SetupSequence(x => x.RollsDice()).Returns(3);
+            nextTurnServiceMock.SetupSequence(x => x.NextTurnAsync()).ReturnsAsync(true).ReturnsAsync(false);
 
-        //    var game = new Game(nextTurnServiceMock.Object, drawServiceMock.Object, diceServiceMock.Object, boardFileName);
-        //    await game.Initialize(2);
+            var game = new Game(nextTurnServiceMock.Object, drawServiceMock.Object, diceServiceMock.Object, boardFileName);
+            await game.Initialize(2);
 
-        //    game.Players[0].po
+            game.Players[0].Position = 97;
 
-        //    await game.StartGame();
+            await game.StartGame();
 
-        //    Assert.Equal(100, game.Players[0].PositionToShow);
-        //    Assert.True(game.IsFinished);
-        //}
+            Assert.Equal(100, game.Players[0].Position);
+            Assert.True(game.IsFinished);
+        }
     }
 }
