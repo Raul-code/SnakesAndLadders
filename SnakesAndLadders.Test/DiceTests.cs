@@ -1,14 +1,14 @@
-using SnakesAndLadders.Models;
+using SnakesAndLadders.Services;
 using Xunit;
 
 namespace SnakesAndLadders.Test
 {
-    public class DiceTest
+    public class DiceTests
     {
-        private readonly Dice _dice;
-        public DiceTest()
+        private readonly DiceService _dice;
+        public DiceTests()
         {
-            _dice = new Dice();
+            _dice = new DiceService();
         }
 
         [Fact]

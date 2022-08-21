@@ -11,13 +11,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\SnakesAndLaddersConfig.json" />
+    <Resource Include="Assets\SnakesAndLaddersConfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Resources\SnakesAndLaddersConfig.json">
+    <None Update="Assets\SnakesAndLaddersConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

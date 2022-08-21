@@ -4,14 +4,20 @@ namespace SnakesAndLadders.ConsoleApp.Services
 {
     internal class NextTurnService : INextTurnService
     {
-        public Task NextTurnAsync()
+        public Task<bool> NextTurnAsync()
         {
-            var key = Console.ReadKey();
-            while (key.KeyChar != ' ')
+            while (true)
             {
-                key = Console.ReadKey();
+                var key = Console.ReadKey();
+                if (key.Key == ConsoleKey.Spacebar)
+                {
+                    return Task.FromResult(true);
+                }
+                else if (key.Key == ConsoleKey.Escape)
+                {
+                    return Task.FromResult(false);
+                }
             }
-            return Task.CompletedTask;
         }
     }
 }

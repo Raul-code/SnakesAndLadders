@@ -9,31 +9,32 @@ namespace SnakesAndLadders
         private readonly IFileService _fileService;
         private readonly INextTurnService _nextTurnService;
         private readonly IDrawService _drawService;
+        private readonly IDiceService _diceService;
 
         private Board board;
-        private Dice dice;
         private int playerTurn;
 
-        private const string resourcesPath = "Resources";
-        private const string fileName = "SnakesAndLaddersConfig.json";
+        private const string assetsPath = "Assets";
+        private string fileName;
 
-        public bool GameFinished { get; set; }
+        public bool IsFinished { get; set; }
         public Player[] Players { get; set; }
         public int Turn => playerTurn + 1;
         public Adornment CurrentAdornment { get; set; }
         public int DiceNumber { get; set; }
 
 
-        public Game(INextTurnService nextTurnService, IDrawService drawService)
+        public Game(INextTurnService nextTurnService, IDrawService drawService, IDiceService diceService, string fileName = "SnakesAndLaddersConfig.json")
         {
             _fileService = new FileService();
             _nextTurnService = nextTurnService;
             _drawService = drawService;
-
-            dice = new Dice();
+            _diceService = diceService;
 
             playerTurn = 0;
-            GameFinished = false;
+            IsFinished = false;
+
+            this.fileName = fileName;
         }
 
         public async Task Initialize(int playersNumber)
@@ -43,7 +44,7 @@ namespace SnakesAndLadders
                 throw new ArgumentOutOfRangeException(nameof(playersNumber));
             }
 
-            var filePath = Path.Combine(resourcesPath, fileName);
+            var filePath = Path.Combine(assetsPath, fileName);
             var boardSettings = await _fileService.ReadFileAsync<BoardSettings>(filePath);
 
             List<Adornment> adornments = new();
@@ -65,13 +66,16 @@ namespace SnakesAndLadders
         {
             _drawService.DrawBoard(board.Adornments);
 
-            while (!GameFinished)
+            while (!IsFinished)
             {
                 await NextTurnAsync();
                 _drawService.Draw(Players, Turn, CurrentAdornment, DiceNumber);
             }
 
-            _drawService.DrawWinner(Players[playerTurn]);
+            if (IsWinSquare())
+            {
+                _drawService.DrawWinner(Players[playerTurn]);
+            }
         }
 
         private void CreateAdornments(List<Adornment> adornments, SquaredAdorned item)
@@ -94,13 +98,23 @@ namespace SnakesAndLadders
         {
             CurrentAdornment = null;
 
-            await _nextTurnService.NextTurnAsync();
-            DiceNumber = dice.RollsDice();
-            CalculateNewPosition(DiceNumber);
-
-            if (Players[playerTurn].Position == board.BoardSize - 1)
+            if (!await _nextTurnService.NextTurnAsync())
             {
-                GameFinished = true;
+                IsFinished = true;
+                return;
+            }
+
+            DiceNumber = _diceService.RollsDice();
+
+            var newPosition = DiceNumber + Players[playerTurn].Position;
+            if (newPosition <= board.BoardSize - 1)
+            {
+                Players[playerTurn].Position = newPosition;
+            }
+
+            if (IsWinSquare())
+            {
+                IsFinished = true;
                 return;
             }
             else
@@ -111,13 +125,9 @@ namespace SnakesAndLadders
             NextTurn();
         }
 
-        public void CalculateNewPosition(int diceNumber)
+        private bool IsWinSquare()
         {
-            var newPosition = diceNumber + Players[playerTurn].Position;
-            if (newPosition <= board.BoardSize - 1)
-            {
-                Players[playerTurn].Position = newPosition;
-            }
+            return Players[playerTurn].Position == board.BoardSize - 1;
         }
 
         private void CheckForAdornment()

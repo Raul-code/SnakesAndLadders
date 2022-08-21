@@ -1,5 +1,6 @@
 ﻿using SnakesAndLadders;
 using SnakesAndLadders.ConsoleApp.Services;
+using SnakesAndLadders.Services;
 
 Console.WriteLine("Welcome to SnakesAndLadders");
 
@@ -15,7 +16,7 @@ while (playersNumber < 2)
     }
 }
 
-Game game = new(new NextTurnService(), new DrawService());
+Game game = new(new NextTurnService(), new DrawService(), new DiceService());
 
 await game.Initialize(playersNumber);
 

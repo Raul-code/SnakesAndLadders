@@ -1,6 +1,6 @@
-﻿namespace SnakesAndLadders.Models
+﻿namespace SnakesAndLadders.Services
 {
-    public class Dice
+    public class DiceService : IDiceService
     {
         public int RollsDice()
         {

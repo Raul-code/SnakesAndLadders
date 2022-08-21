@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <!--<PackageReference Include="xunit.extensibility.core" Version="2.4.2" />-->
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -23,6 +24,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SnakesAndLadders\SnakesAndLadders.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\SnakesAndLaddersConfigMock.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
