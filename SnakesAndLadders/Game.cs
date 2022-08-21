@@ -19,7 +19,6 @@ namespace SnakesAndLadders
 
         public bool IsFinished { get; set; }
         public Player[] Players { get; set; }
-        //public int Turn => playerTurn + 1;
         public Adornment CurrentAdornment { get; set; }
         public int DiceNumber { get; set; }
 
