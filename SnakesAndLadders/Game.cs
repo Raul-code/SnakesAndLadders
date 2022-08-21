@@ -19,7 +19,7 @@ namespace SnakesAndLadders
 
         public bool IsFinished { get; set; }
         public Player[] Players { get; set; }
-        public int Turn => playerTurn + 1;
+        //public int Turn => playerTurn + 1;
         public Adornment CurrentAdornment { get; set; }
         public int DiceNumber { get; set; }
 
@@ -69,7 +69,7 @@ namespace SnakesAndLadders
             while (!IsFinished)
             {
                 await NextTurnAsync();
-                _drawService.Draw(Players, Turn, CurrentAdornment, DiceNumber);
+                _drawService.Draw(Players, playerTurn + 1, CurrentAdornment, DiceNumber);
             }
 
             if (IsWinSquare())

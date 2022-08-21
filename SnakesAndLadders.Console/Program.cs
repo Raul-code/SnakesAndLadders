@@ -20,6 +20,7 @@ Game game = new(new NextTurnService(), new DrawService(), new DiceService());
 
 await game.Initialize(playersNumber);
 
+Console.WriteLine("Press ESC to exit");
 Console.WriteLine("Press SPACE to roll a dice");
 
 await game.StartGame();
